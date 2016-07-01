@@ -58,6 +58,7 @@ persist.vendor.audio.fluence.voicerec=false
 persist.vendor.audio.fluence.speaker=false
 af.fast_track_multiplier=1
 vendor.audio_hal.period_size=192
+ro.config.vc_call_vol_steps=7
 
 persist.audio.vns.mode=2
 

@@ -40,6 +40,8 @@ on fs
     mkdir /dev/bus 0755 root root
     mkdir /dev/bus/usb 0755 root root
 
+    setprop sys.usb.ffs.aio_compat 1
+
 service qcom-usb-sh /vendor/bin/sh /vendor/bin/init.qcom.usb.sh
     class core
     user root

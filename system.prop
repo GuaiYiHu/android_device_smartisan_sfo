@@ -118,5 +118,7 @@ dalvik.vm.heapmaxfree=8m
 # Memory optimizations
 ro.vendor.qti.sys.fw.bservice_enable=true
 
+debug.sf.latch_unsignaled=1
+
 # Maintainer
 ro.mk.maintainer=guaiyihu

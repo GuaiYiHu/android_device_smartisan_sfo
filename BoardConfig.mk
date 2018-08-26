@@ -195,6 +195,9 @@ ifeq ($(HOST_OS),linux)
 endif
 DONT_DEXPREOPT_PREBUILTS := true
 
+# Security patch level
+VENDOR_SECURITY_PATCH := 2016-07-01
+
 # qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
 include device/qcom/sepolicy/legacy-sepolicy.mk

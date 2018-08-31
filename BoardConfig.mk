@@ -120,6 +120,10 @@ TARGET_NEEDS_LEGACY_CAMERA_HAL1_DYN_NATIVE_HANDLE := true
 TARGET_USES_MEDIA_EXTENSIONS           := true
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 USE_DEVICE_SPECIFIC_CAMERA             := true
+TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
+    /system/bin/cameraserver=19 \
+    /system/bin/mediaserver=19 \
+    /system/vendor/bin/mm-qcamera-daemon=19
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true

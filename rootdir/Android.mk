@@ -91,6 +91,14 @@ LOCAL_SRC_FILES    := bin/usf_post_boot.sh
 LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_EXECUTABLES)
 include $(BUILD_PREBUILT)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE		:= init.program_bdaddr.sh
+LOCAL_MODULE_TAGS	:= optional eng
+LOCAL_MODULE_CLASS	:= EXECUTABLES
+LOCAL_SRC_FILES		:= bin/init.program_bdaddr.sh
+LOCAL_MODULE_PATH	:= $(TARGET_OUT_VENDOR_EXECUTABLES)
+include $(BUILD_PREBUILT)
+
 # Device init files
 
 include $(CLEAR_VARS)

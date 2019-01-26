@@ -98,6 +98,7 @@ BLUETOOTH_HCI_USE_MCT                       := true
 # Radio
 TARGET_RIL_VARIANT                := caf
 FEATURE_QCRIL_UIM_SAP_SERVER_MODE := true
+TARGET_USES_OLD_MNC_FORMAT        := true
 
 # Graphics
 USE_OPENGL_RENDERER               := true

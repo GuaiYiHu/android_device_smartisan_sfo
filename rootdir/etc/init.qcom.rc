@@ -623,12 +623,11 @@ on property:sys.qbcharger.enable=true
 
 on property:sys.qbcharger.enable=false
     stop qbcharger
-    
-on property:service.bootanim.exit=1
-    start mpdecision
 
 on property:dev.bootcomplete=1
     setprop sys.io.scheduler "bfq"
+    setprop vendor.post_boot.parsed 1
+    start mpdecision
 
 #To enalbe fast dormancy for CU
 on property:persist.radio.modem=LTE-CU

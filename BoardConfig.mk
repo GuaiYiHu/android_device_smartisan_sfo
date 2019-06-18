@@ -17,9 +17,6 @@ BOARD_VENDOR := xiaomi
 
 CANCRO_PATH := device/xiaomi/cancro
 
-# ReleaseTools
-TARGET_RELEASETOOLS_EXTENSIONS := $(CANCRO_PATH)/releasetools
-
 # Include path
 TARGET_SPECIFIC_HEADER_PATH := $(CANCRO_PATH)/include
 
@@ -56,11 +53,6 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
 TARGET_KERNEL_SOURCE := kernel/xiaomi/cancro
 TARGET_KERNEL_ARCH := arm
 TARGET_KERNEL_CONFIG := cyanogen_cancro_defconfig
-
-# Vendor Init
-TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_msm
-TARGET_LIBINIT_DEFINES_FILE := $(CANCRO_PATH)/init/init_cancro.c
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true

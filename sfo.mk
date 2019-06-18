@@ -119,6 +119,9 @@ PRODUCT_PACKAGES += \
     hostapd.accept \
     hostapd.deny
 
+PRODUCT_PACKAGES += \
+    wcnss_service
+
 # Enable Adaptive Multi-Rate Wideband
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.enable.amr.wideband=1

@@ -56,7 +56,6 @@ BOARD_DTBTOOL_ARGS                 := -2
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE            := true
 TARGET_POWERHAL_VARIANT             := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(CANCRO_PATH)/power/power_ext.c
 
 # Audio
 BOARD_USES_ALSA_AUDIO                      := true

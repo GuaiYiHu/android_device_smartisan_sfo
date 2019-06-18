@@ -19,8 +19,8 @@ TARGET_SCREEN_WIDTH := 1080
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit from cancro device
-$(call inherit-product, device/xiaomi/cancro/cancro.mk)
+# Inherit from sfo device
+$(call inherit-product, device/smartisan/sfo/sfo.mk)
 
 # Enhanced NFC
 $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
@@ -28,17 +28,20 @@ $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_mini_phone.mk)
 
-PRODUCT_NAME := cm_cancro
-PRODUCT_DEVICE := cancro
-PRODUCT_BRAND := Xiaomi
-PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_MODEL := MI Cancro
+PRODUCT_NAME := cm_sfo
+PRODUCT_DEVICE := sfo
+PRODUCT_BRAND := smartisan
+PRODUCT_MANUFACTURER := smartisan
+PRODUCT_MODEL := SM705
 
-PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+TARGET_VENDOR_DEVICE_NAME := msm8974sfo_lte
+TARGET_VENDOR_PRODUCT_NAME := msm8974sfo_lte
+
+PRODUCT_GMS_CLIENTID_BASE := android-smartisan
 
 # Device prop
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    TARGET_DEVICE="cancro" \
-    PRODUCT_NAME="cancro" \
-    BUILD_FINGERPRINT="Xiaomi/cancro/cancro:5.1.1/LMY48M/5.9.17:userdebug/test-keys" \
-    PRIVATE_BUILD_DESC="cancro-userdebug 5.1.1 LMY48M 5.9.17 test-keys"
+    TARGET_DEVICE="msm8974sfo_lte" \
+    PRODUCT_NAME="msm8974sfo_lte" \
+    BUILD_FINGERPRINT="smartisan/msm8974sfo_lte/msm8974sfo_lte:4.4.2/SANFRANCISCO:user/dev-keys" \
+    PRIVATE_BUILD_DESC="msm8974sfo_lte-user 4.4.2 SANFRANCISCO dev-keys"

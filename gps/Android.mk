@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-ifeq ($(BOARD_VENDOR),xiaomi)
+ifeq ($(BOARD_VENDOR),smartisan)
 ifeq ($(TARGET_BOARD_PLATFORM),msm8974)
 
 LOC_PATH := $(call my-dir)

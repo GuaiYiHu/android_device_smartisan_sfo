@@ -38,7 +38,6 @@ lib/libchromatix_imx226_liveshot.so
 lib/hw/activity_recognition.msm8974.so
 lib/hw/gps.msm8974.so
 lib/hw/camera.msm8974.so
-lib/hw/consumerir.msm8974.so
 lib/libchromatix_imx214_liveshot.so
 lib/libqminvapi.so
 lib/libchromatix_imx219_liveshot.so

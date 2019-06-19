@@ -335,9 +335,6 @@ vendor/lib/libubifocus.so
 bin/charger_monitor
 bin/hvdcp
 
-# ConsumerIR
-lib/hw/consumerir.msm8974.so
-
 # DRM
 bin/qseecomd
 lib/libdrmdecrypt.so

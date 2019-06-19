@@ -260,6 +260,11 @@ on property:init.svc.surfaceflinger=stopped
 on property:init.svc.surfaceflinger=running
     start ppd
 
+service thermal-engine /system/bin/thermal-engine
+   class main
+   user root
+   group root
+
 service nqs /system/bin/nqs
     class late_start
     socket nqs_qsb_comm stream 660 system system

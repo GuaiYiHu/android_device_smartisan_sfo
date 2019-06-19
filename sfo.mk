@@ -82,7 +82,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libqsap_sdk \
     libQWiFiSoftApCfg \
-    libwcnss_qmi \
     wcnss_service
 
 # IPC router config

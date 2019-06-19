@@ -61,9 +61,6 @@ TARGET_POWERHAL_VARIANT             := qcom
 BOARD_USES_ALSA_AUDIO                      := true
 AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
 
-# FM Radio
-TARGET_FM_LEGACY_PATCHLOADER := true
-
 # Bluetooth
 BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true

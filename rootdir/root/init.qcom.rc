@@ -208,10 +208,6 @@ on boot
     chown system system /sys/class/leds/blue/ramp_step_ms
     chown system system /sys/class/leds/blue/blink
 
-    # Vibrator permissions
-    chown system system /sys/vibrator/pwmvalue
-    chmod 0644 /sys/vibrator/pwmvalue
-
     #charger
     chown root system /sys/module/qpnp_charger/parameters/charger_monitor
     chown root system /sys/module/qpnp_charger/parameters/ext_ovp_present

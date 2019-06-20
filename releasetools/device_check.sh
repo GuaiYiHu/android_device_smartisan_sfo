@@ -19,9 +19,6 @@
 RAW_ID=`cat /sys/devices/system/soc/soc0/raw_id`
 
 if [ $RAW_ID == 1974 ] || [ $RAW_ID == 1972 ]; then
-    # Replace manifests
-    rm -rf /system/vendor/manifest.xml
-    mv /system/vendor/manifest_mi4.xml /system/vendor/manifest.xml
     # Remove NFC
     rm -rf /system/app/NfcNci
     rm -rf /system/priv-app/Tag
@@ -39,12 +36,6 @@ if [ $RAW_ID == 1974 ] || [ $RAW_ID == 1972 ]; then
     rm -f /system/vendor/etc/diracmobile.config
     mv /system/vendor/etc/diracmobile_4.config /system/vendor/etc/diracmobile.config
 else
-    # Remove Mi4 consumerir support
-    rm -rf /system/vendor/etc/permissions/android.hardware.consumerir.xml
-    rm -rf /system/vendor/lib/hw/consumerir.msm8974.so
-    rm -rf /system/vendor/lib/hw/android.hardware.ir@*.so
-    rm -rf /system/vendor/bin/hw/android.hardware.ir@*.so
-    rm -rf /system/vendor/manifest_mi4.xml
     # Remove Mi4 audio configs
     rm -rf /system/etc/acdbdata/MTP/MTP_Speaker_cal_4.acdb
     rm -f /system/vendor/etc/mixer_paths_4.xml

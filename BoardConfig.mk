@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-BOARD_VENDOR := xiaomi
+BOARD_VENDOR := smartisan
 
-DEVICE_PATH := device/xiaomi/cancro
+DEVICE_PATH := device/smartisan/sfo
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
@@ -57,10 +57,10 @@ BOARD_KERNEL_SEPARATED_DT          := true
 BOARD_KERNEL_BASE                  := 0x00000000
 BOARD_KERNEL_PAGESIZE              := 2048
 BOARD_KERNEL_IMAGE_NAME            := zImage
-BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
-TARGET_KERNEL_SOURCE               := kernel/xiaomi/virgo
+BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
-TARGET_KERNEL_CONFIG               := virgo_defconfig
+TARGET_KERNEL_CONFIG               := mokee_sfo-lte_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 BOARD_DTBTOOL_ARGS                 := -2
 
@@ -212,4 +212,4 @@ include device/qcom/sepolicy-legacy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
--include vendor/xiaomi/cancro/BoardConfigVendor.mk
+-include vendor/smartisan/sfo/BoardConfigVendor.mk

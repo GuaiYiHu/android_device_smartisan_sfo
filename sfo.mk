@@ -1,4 +1,4 @@
-LOCAL_PATH := device/xiaomi/cancro
+LOCAL_PATH := device/smartisan/sfo
 
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
@@ -80,10 +80,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/vendor/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/vendor/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv_x4.bin:system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv_x4.bin \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv_x4lte.bin:system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv_x4lte.bin \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv_x5.bin:system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv_x5.bin
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/vendor/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
@@ -139,17 +136,14 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.xml:system/vendor/etc/audio_effects.xml \
     $(LOCAL_PATH)/audio/listen_platform_info.xml:system/vendor/etc/listen_platform_info.xml \
     $(LOCAL_PATH)/audio/diracmobile.config:system/vendor/etc/diracmobile.config \
-    $(LOCAL_PATH)/audio/diracmobile_4.config:system/vendor/etc/diracmobile_4.config \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/vendor/etc/mixer_paths.xml \
-    $(LOCAL_PATH)/audio/mixer_paths_4.xml:system/vendor/etc/mixer_paths_4.xml \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_Bluetooth_cal.acdb:system/etc/acdbdata/MTP/MTP_Bluetooth_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_General_cal.acdb:system/etc/acdbdata/MTP/MTP_General_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_Global_cal.acdb:system/etc/acdbdata/MTP/MTP_Global_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_Handset_cal.acdb:system/etc/acdbdata/MTP/MTP_Handset_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_Hdmi_cal.acdb:system/etc/acdbdata/MTP/MTP_Hdmi_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP/MTP_Headset_cal.acdb:system/etc/acdbdata/MTP/MTP_Headset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/MTP/MTP_Speaker_cal.acdb:system/etc/acdbdata/MTP/MTP_Speaker_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/MTP/MTP_Speaker_cal_4.acdb:system/etc/acdbdata/MTP/MTP_Speaker_cal_4.acdb
+    $(LOCAL_PATH)/audio/acdb/MTP/MTP_Speaker_cal.acdb:system/etc/acdbdata/MTP/MTP_Speaker_cal.acdb
 
 # Media profile
 PRODUCT_COPY_FILES += \
@@ -305,4 +299,4 @@ $(call inherit-product-if-exists, $(QCPATH)/prebuilt_HY11/target/product/msm8974
 endif
 
 # call the proprietary setup
-$(call inherit-product, vendor/xiaomi/cancro/cancro-vendor.mk)
+$(call inherit-product, vendor/smartisan/sfo/sfo-vendor.mk)

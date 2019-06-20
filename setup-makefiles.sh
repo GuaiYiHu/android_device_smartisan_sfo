@@ -18,8 +18,8 @@
 set -e
 
 # Required!
-DEVICE=cancro
-VENDOR=xiaomi
+DEVICE=sfo
+VENDOR=smartisan
 
 # Load extractutils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"

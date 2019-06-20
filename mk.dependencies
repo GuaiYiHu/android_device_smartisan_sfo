@@ -1,10 +1,10 @@
 [
  {
-   "repository": "android_vendor_xiaomi_cancro",
-   "target_path": "vendor/xiaomi/cancro"
+   "repository": "android_vendor_smartisan_sfo",
+   "target_path": "vendor/smartisan/sfo"
  },
  {
-   "repository": "android_kernel_xiaomi_virgo",
-   "target_path": "kernel/xiaomi/virgo"
+   "repository": "android_kernel_smartisan_msm8974",
+   "target_path": "kernel/smartisan/msm8974"
  }
 ]

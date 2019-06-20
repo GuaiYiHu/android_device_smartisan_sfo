@@ -18,12 +18,6 @@ BOARD_VENDOR := xiaomi
 
 DEVICE_PATH := device/xiaomi/cancro
 
-# ReleaseTools
-TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
-TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_cancro
-
-TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
-
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 TARGET_NO_BOOTLOADER         := true
@@ -66,10 +60,6 @@ TARGET_KERNEL_ARCH                 := arm
 TARGET_KERNEL_CONFIG               := virgo_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 BOARD_DTBTOOL_ARGS                 := -2
-
-# Vendor Init
-TARGET_INIT_VENDOR_LIB      := libinit_cancro
-TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_PATH)/init/init_cancro.cpp
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE            := true

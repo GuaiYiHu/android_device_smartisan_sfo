@@ -56,7 +56,7 @@ PRODUCT_PACKAGES += \
 
 # Charger
 PRODUCT_PACKAGES += \
-    chargeonlymode
+    charger_res_images
 
 # Lights
 PRODUCT_PACKAGES += \

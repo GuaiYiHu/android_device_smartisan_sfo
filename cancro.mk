@@ -19,7 +19,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     changepowermode.sh \
     init.qcom.bt.sh \
-    init.qcom.fm.sh \
     init.class_main.sh \
     init.qcom.early_boot.sh \
     init.qcom.factory.sh \
@@ -193,7 +192,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
     android.hardware.audio.effect@2.0-impl \
-    android.hardware.broadcastradio@1.0-impl \
     android.hardware.soundtrigger@2.0-impl \
     audiod \
     audio.a2dp.default \
@@ -249,11 +247,6 @@ PRODUCT_PACKAGES += \
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8974
-
-# FM Radio
-PRODUCT_PACKAGES += \
-    FMRadio \
-    libfmjni
 
 # Misc dependency packages
 PRODUCT_PACKAGES += \

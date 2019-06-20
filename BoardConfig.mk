@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-BOARD_VENDOR := xiaomi
+BOARD_VENDOR := smartisan
 
-CANCRO_PATH := device/xiaomi/cancro
+DEVICE_PATH := device/smartisan/sfo
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
@@ -45,10 +45,10 @@ BOARD_KERNEL_CMDLINE               += androidboot.selinux=permissive
 BOARD_KERNEL_SEPARATED_DT          := true
 BOARD_KERNEL_BASE                  := 0x00000000
 BOARD_KERNEL_PAGESIZE              := 2048
-BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
-TARGET_KERNEL_SOURCE               := kernel/xiaomi/cancro
+BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+TARGET_KERNEL_SOURCE               := kernel/smartisan/sfo
 TARGET_KERNEL_ARCH                 := arm
-TARGET_KERNEL_CONFIG               := lineageos_cancro_defconfig
+TARGET_KERNEL_CONFIG               := cyanogen_sfo-lte_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 BOARD_DTBTOOL_ARGS                 := -2
 
@@ -63,7 +63,7 @@ AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(CANCRO_PATH)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 QCOM_BT_USE_SMD_TTY                         := true
 BLUETOOTH_HCI_USE_MCT                       := true
 
@@ -105,7 +105,6 @@ BOARD_HOSTAPD_DRIVER             := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WIFI_DRIVER_FW_PATH_STA          := "sta"
 WIFI_DRIVER_FW_PATH_AP           := "ap"
-TARGET_PROVIDES_WCNSS_QMI        := true
 TARGET_USES_QCOM_WCNSS_QMI       := true
 TARGET_USES_WCNSS_CTRL           := true
 
@@ -125,7 +124,7 @@ BOARD_FLASH_BLOCK_SIZE              := 131072
 # Recovery
 RECOVERY_FSTAB_VERSION             := 2
 TARGET_RECOVERY_DENSITY            := xhdpi
-TARGET_RECOVERY_FSTAB              := $(CANCRO_PATH)/rootdir/root/fstab.qcom
+TARGET_RECOVERY_FSTAB              := $(DEVICE_PATH)/rootdir/root/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT       := "RGBX_8888"
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
 
@@ -133,7 +132,7 @@ TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness
 TARGET_NO_RPC := true
 
 # GPS HAL lives here
-TARGET_GPS_HAL_PATH         := $(CANCRO_PATH)/gps
+TARGET_GPS_HAL_PATH         := $(DEVICE_PATH)/gps
 TARGET_PROVIDES_GPS_LOC_API := true
 
 # Lights
@@ -164,6 +163,6 @@ DONT_DEXPREOPT_PREBUILTS := true
 include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
-        $(CANCRO_PATH)/sepolicy
+        $(DEVICE_PATH)/sepolicy
 
--include vendor/xiaomi/cancro/BoardConfigVendor.mk
+-include vendor/smartisan/sfo/BoardConfigVendor.mk

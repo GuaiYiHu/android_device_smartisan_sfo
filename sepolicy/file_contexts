@@ -3,6 +3,3 @@
 /data/system/sensors/settings                                u:object_r:device:s0
 /dev/bcm2079x                                                u:object_r:nfc_device:s0
 /dev/block/platform/msm_sdcc\.1/by-name/persist              u:object_r:persist_block_device:s0
-
-# Bluetooth
-/vendor/bin/bdaddr_xiaomi                                    u:object_r:bdaddr_exec:s0

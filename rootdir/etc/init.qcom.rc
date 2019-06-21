@@ -412,11 +412,6 @@ on post-fs-data
 
     mkdir /data/audio/ 0770 media audio
 
-    # Key disabler
-    chown root system /sys/bus/i2c/drivers/cyttsp_streetfighter/2-0028/keys_off
-    chmod 0664 /sys/bus/i2c/drivers/cyttsp_streetfighter/2-0028/keys_off
-    restorecon /sys/bus/i2c/drivers/cyttsp_streetfighter/2-0028/keys_off
-
     setprop vold.post_fs_data_done 1
 
     #Create a folder for SRS to be able to create a usercfg file
@@ -436,34 +431,6 @@ on post-fs-data
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
-
-# corefile limit and ETB enabling
-on property:persist.debug.trace=1
-    mkdir /data/core 0777 root root
-    write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/bus/coresight/devices/coresight-etm0/enable 0
-    write /sys/bus/coresight/devices/coresight-etm1/enable 0
-    write /sys/bus/coresight/devices/coresight-etm2/enable 0
-    write /sys/bus/coresight/devices/coresight-etm3/enable 0
-    write /sys/bus/coresight/devices/coresight-etm0/reset 1
-    write /sys/bus/coresight/devices/coresight-etm1/reset 1
-    write /sys/bus/coresight/devices/coresight-etm2/reset 1
-    write /sys/bus/coresight/devices/coresight-etm3/reset 1
-    write /sys/bus/coresight/devices/coresight-etm0/enable 1
-    write /sys/bus/coresight/devices/coresight-etm1/enable 1
-    write /sys/bus/coresight/devices/coresight-etm2/enable 1
-    write /sys/bus/coresight/devices/coresight-etm3/enable 1
-
-on property:bluetooth.isEnabled=true
-    write /sys/class/bluetooth/hci0/idle_timeout 7000
-
-service qcom-c_core-sh /vendor/bin/sh /vendor/bin/init.qcom.class_core.sh
-    class core
-    user root
-    oneshot
 
 service qcom-c_main-sh /vendor/bin/sh /vendor/bin/init.class_main.sh
     class main
@@ -546,10 +513,6 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     disabled
     oneshot
 
-on property:crypto.driver.load=1
-     insmod /system/lib/modules/qce.ko
-     insmod /system/lib/modules/qcedev.ko
-
 service qcom-sh /vendor/bin/sh /vendor/bin/init.qcom.sh
     class late_start
     user root
@@ -563,10 +526,6 @@ service qcom-post-boot /vendor/bin/sh /vendor/bin/init.qcom.post_boot.sh
 
 on property:sys.boot_completed=1
     start qcom-post-boot
-
-on property:ro.data.large_tcp_window_size=true
-    # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
-    write /proc/sys/net/ipv4/tcp_adv_win_scale  2
 
 service ril-daemon2 /system/vendor/bin/hw/rild -c 2
     class main
@@ -584,28 +543,10 @@ service ril-daemon3 /system/vendor/bin/hw/rild -c 3
     disabled
     group radio cache inet misc audio sdcard_r sdcard_rw diag oem_2950 log net_raw
 
-on property:usb_uicc.spi_bridge_enabled=1
-    insmod /system/lib/modules/ice40-hcd.ko
-
-on property:usb_uicc.spi_bridge_enabled=0
-    rmmod /system/lib/modules/ice40-hcd.ko
-
 service charger /charger
     class charger
     critical
     seclabel u:r:charger:s0
-
-# SSR setting
-on property:persist.sys.ssr.restart_level=*
-    exec /vendor/bin/sh /vendor/bin/init.qcom.ssr.sh ${persist.sys.ssr.restart_level}
-
-service fastmmisrv /vendor/bin/sh /vendor/bin/init.qcom.factory.sh
-    user root
-    disabled
-    oneshot
-
-on ffbm
-    start fastmmisrv
 
 service hvdcp /vendor/bin/hvdcp
     class core
@@ -622,24 +563,7 @@ service program_bdaddr /system/vendor/bin/init.program_bdaddr.sh
     disabled
     oneshot
 
-service qbcharger /charger -m 1
-    disabled
-    oneshot
-
-on property:sys.qbcharger.enable=true
-    start qbcharger
-
-on property:sys.qbcharger.enable=false
-    stop qbcharger
-
 on property:dev.bootcomplete=1
     setprop sys.io.scheduler "bfq"
     setprop vendor.post_boot.parsed 1
     start mpdecision
-
-#To enalbe fast dormancy for CU
-on property:persist.radio.modem=LTE-CU
-    setprop persist.env.fastdorm.enabled true
-    setprop persist.radio.data_no_toggle 1
-    setprop persist.fd.scroff.timer 3000
-    setprop persist.fd.scron.timer 10000

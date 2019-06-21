@@ -40,10 +40,6 @@ on init
     export VIBE_PIPE_PATH /dev/pipes
     mkdir /dev/pipes 0771 system system
 
-# import cne init file
-#on post-fs
-#    export LD_PRELOAD /vendor/lib/libNimsWrap.so
-
 on fs
     mount_all /vendor/etc/fstab.qcom
 
@@ -77,13 +73,6 @@ on post-fs-data
     chown nfc nfc /data/nfc
     chown nfc nfc /data/nfc/param
 
-    chown system system /dev/sysmatdrv
-    chmod 0660 /dev/sysmatdrv
-
-    # Torch
-    chown system camera /sys/class/leds/torch-light/brightness
-    chmod 0660 /sys/class/leds/torch-light/brightness
-
 on boot
     chown system system /sys/class/input/input0/enabled
     chown system system /sys/class/input/input1/enabled
@@ -92,26 +81,6 @@ on boot
     chown system system /sys/class/input/input4/enabled
     chown system system /sys/class/input/input5/enabled
     chown system system /sys/class/input/input6/enabled
-    chown system system /sys/class/leds/button-backlight/max_brightness
-    chown system system /sys/class/leds/button-backlight1/max_brightness
-    chown system system /sys/bus/i2c/devices/2-004a/golden_ref
-    chown system system /sys/bus/i2c/devices/2-004a/golden_en
-    chown system system /sys/bus/i2c/devices/2-0048/auto_tune
-    chown system system /sys/bus/i2c/devices/2-004b/hover_tune
-    chown system system /sys/bus/i2c/devices/2-004b/hover_from_flash
-    chown system system /sys/devices/fda0c000.qcom,cci/1c.qcom,actuator/bu63163
-    # update foreground cpuset now that processors are up
-    # write /dev/cpuset/foreground/cpus 0-3
-    # write /dev/cpuset/foreground/boost/cpus 0-3
-    # write /dev/cpuset/background/cpus 0
-    # write /dev/cpuset/system-background/cpus 0-1
-
-# Dynamically modify golden_ref setting
-on property:persist.atmel.golden.enable=1
-    write /sys/bus/i2c/devices/2-004a/golden_en 1
-
-on property:persist.atmel.golden.enable=0
-    write /sys/bus/i2c/devices/2-004a/golden_en 0
 
 # Allow usb charging to be disabled persistently
 on property:persist.usb.chgdisabled=1
@@ -163,15 +132,6 @@ service adsprpcd /vendor/bin/adsprpcd
    user media
    group media
 
-service usf-post-boot /vendor/bin/sh /vendor/bin/usf_post_boot.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
-on property:init.svc.bootanim=stopped
-    start usf-post-boot
-
 service wcnss-service /vendor/bin/wcnss_service
     class main
     user system
@@ -191,56 +151,3 @@ service thermal-engine /system/vendor/bin/thermal-engine
    class main
    user root
    group root
-
-on property:persist.sys.display_prefer=0
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x2
-on property:persist.sys.display_prefer=1
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x1
-on property:persist.sys.display_prefer=2
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x2
-on property:persist.sys.display_prefer=3
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x3
-on property:persist.sys.display_prefer=4
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x4
-
-on property:persist.sys.display_ce=0
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xF0
-on property:persist.sys.display_ce=10
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xF0
-on property:persist.sys.display_ce=11
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x10
-
-on property:persist.sys.display_cabc=0
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xF00
-on property:persist.sys.display_cabc=1
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x200
-on property:persist.sys.display_cabc=2
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x300
-on property:persist.sys.display_cabc=3
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x400
-
-on property:persist.sys.display_level=0
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xF000
-on property:persist.sys.display_level=1
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x1000
-on property:persist.sys.display_level=2
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x2000
-on property:persist.sys.display_level=3
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x3000
-on property:persist.sys.display_level=4
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x4000
-on property:persist.sys.display_level=5
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x5000
-on property:persist.sys.display_level=6
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x6000
-
-on property:persist.sys.display_idle=1
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xA0000
-on property:persist.sys.display_idle=0
-    write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0xF0000
-
-on property:persist.radio.modem=LTE-X5-ALL
-    setprop telephony.lteOnCdmaDevice 1
-    setprop persist.radio.disable_flexmap 0
-on property:persist.radio.modem=LTE-X5
-    setprop persist.radio.disable_flexmap 1

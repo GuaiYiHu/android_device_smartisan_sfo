@@ -195,14 +195,6 @@ service thermal-engine /system/vendor/bin/thermal-engine --config /system/vendor
     socket thermal-recv-client stream 0660 system system
     socket thermal-recv-passive-client stream 0666 system system
 
-service changepowermode /vendor/bin/changepowermode.sh
-    user root
-    oneshot
-    disabled
-
-on property:sys.perf.profile=*
-    start changepowermode
-
 on property:persist.sys.display_prefer=0
     write /sys/devices/virtual/graphics/fb0/msm_fb_dispparam 0x2
 on property:persist.sys.display_prefer=1

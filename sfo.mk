@@ -17,7 +17,6 @@ PRODUCT_PACKAGES += \
 
 # QCOM Config Script
 PRODUCT_PACKAGES += \
-    changepowermode.sh \
     init.qcom.bt.sh \
     init.class_main.sh \
     init.qcom.early_boot.sh \

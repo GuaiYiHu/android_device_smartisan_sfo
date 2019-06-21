@@ -161,7 +161,6 @@ case "$target" in
         chown radio.system /sys/power/wake_unlock
         echo 0 > /dev/cpuctl/apps/cpu.notify_on_migrate
         start mpdecision
-        setprop sys.perf.profile `getprop sys.perf.profile`
     ;;
 esac
 

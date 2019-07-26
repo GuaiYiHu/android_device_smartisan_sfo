@@ -67,6 +67,10 @@ PRODUCT_PACKAGES += \
     libshim_atomic \
     android.hardware.power@1.1-service-qti
 
+# Privapp Whitelist
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:system/etc/permissions/privapp-permissions-qti.xml
+
 # Vibrator
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl

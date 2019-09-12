@@ -64,7 +64,6 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    libshim_atomic \
     android.hardware.power@1.1-service-qti
 
 # Privapp Whitelist

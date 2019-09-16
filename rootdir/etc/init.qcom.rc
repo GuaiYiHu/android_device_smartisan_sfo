@@ -562,3 +562,6 @@ on property:dev.bootcomplete=1
     setprop sys.io.scheduler "bfq"
     setprop vendor.post_boot.parsed 1
     start mpdecision
+
+on property:apexd.status=ready
+    mount none /system/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind

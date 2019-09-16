@@ -20,13 +20,13 @@ TARGET_SCREEN_WIDTH := 1080
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common MK stuff.
-$(call inherit-product, vendor/mk/config/common_full_phone.mk)
+# Inherit some common Mokee stuff.
+$(call inherit-product, vendor/mokee/config/common_full_phone.mk)
 
 # Inherit from sfo device
 $(call inherit-product, device/smartisan/sfo/sfo.mk)
 
-PRODUCT_NAME := mk_sfo
+PRODUCT_NAME := mokee_sfo
 PRODUCT_DEVICE := sfo
 PRODUCT_BRAND := smartisan
 PRODUCT_MANUFACTURER := smartisan

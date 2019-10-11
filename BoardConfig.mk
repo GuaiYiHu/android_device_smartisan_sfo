@@ -194,16 +194,13 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 # Remove secdiscard command
 TARGET_REMOVE_SECDISCARD_COMMAND := true
 
-# Enable dex-preoptimization to speed up first boot sequence
+# Dexpreopt
 ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-      WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true
-    endif
+  ifneq ($(TARGET_BUILD_VARIANT),eng)
+    WITH_DEXPREOPT ?= true
   endif
 endif
-DONT_DEXPREOPT_PREBUILTS := true
+WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY ?= true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2016-07-01

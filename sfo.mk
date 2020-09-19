@@ -235,6 +235,7 @@ PRODUCT_PACKAGES += \
 
 # Radio
 PRODUCT_PACKAGES += \
+    libaudioclient_shim \
     libcnefeatureconfig \
     librmnetctl
 

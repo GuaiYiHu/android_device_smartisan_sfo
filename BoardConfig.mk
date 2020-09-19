@@ -219,4 +219,8 @@ include device/qcom/sepolicy-legacy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
+# Shim
+TARGET_LD_SHIM_LIBS := \
+    /system/vendor/lib/libril-qc-qmi-1.so|libaudioclient_shim.so
+
 -include vendor/smartisan/sfo/BoardConfigVendor.mk

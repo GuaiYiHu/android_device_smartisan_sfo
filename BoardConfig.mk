@@ -131,6 +131,9 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
     /system/bin/mediaserver=19 \
     /system/vendor/bin/mm-qcamera-daemon=19
 
+# Vintf
+PRODUCT_ENFORCE_VINTF_MANIFEST_OVERRIDE := true
+
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
 BOARD_WLAN_DEVICE                := qcwcn

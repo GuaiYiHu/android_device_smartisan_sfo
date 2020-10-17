@@ -182,6 +182,9 @@ TARGET_PROVIDES_GPS_LOC_API := true
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
+# Memfd
+TARGET_HAS_MEMFD_BACKPORT := true
+
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 

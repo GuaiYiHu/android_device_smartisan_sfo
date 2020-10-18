@@ -104,6 +104,10 @@ PRODUCT_PACKAGES += \
     libQWiFiSoftApCfg \
     wcnss_service
 
+# Health
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.0-service
+
 # IPC router config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/vendor/etc/sec_config

@@ -48,6 +48,7 @@ on init
 
     # ZRAM setup
     write /sys/block/zram0/comp_algorithm lz4
+    write /sys/block/zram0/max_comp_streams 4
     write /proc/sys/vm/page-cluster 0
 
     start program_bdaddr
@@ -515,6 +516,8 @@ service qcom-post-boot /vendor/bin/sh /vendor/bin/init.qcom.post_boot.sh
     oneshot
 
 on property:sys.boot_completed=1
+    # Enable ZRAM after Android finishes booting.
+    swapon_all /vendor/etc/fstab.qcom
     start qcom-post-boot
 
 service ril-daemon2 /system/vendor/bin/hw/rild -c 2

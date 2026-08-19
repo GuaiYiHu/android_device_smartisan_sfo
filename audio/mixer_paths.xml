@@ -717,6 +717,11 @@
         <ctl name="DAC1 Switch" value="1" />
     </path>
 
+    <!-- SFO has a mono speaker, so display rotation does not change routing. -->
+    <path name="speaker-reverse">
+        <path name="speaker" />
+    </path>
+
     <path name="speaker-fluid">
         <ctl name="SLIM RX1 MUX" value="AIF1_PB" />
         <ctl name="RX7 MIX1 INP1" value="RX1" />

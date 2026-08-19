@@ -17,16 +17,21 @@
 TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
+# Keep adbd available from the boot ramdisk without host authentication.
+# userdebug builds remain secure by default, but can switch to root with
+# `adb root` because ro.debuggable is enabled by the build variant.
+WITH_ADB_INSECURE := true
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common Mokee stuff.
-$(call inherit-product, vendor/mokee/config/common_full_phone.mk)
+# Inherit some common LineageOS stuff.
+$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Inherit from sfo device
 $(call inherit-product, device/smartisan/sfo/sfo.mk)
 
-PRODUCT_NAME := mokee_sfo
+PRODUCT_NAME := lineage_sfo
 PRODUCT_DEVICE := sfo
 PRODUCT_BRAND := smartisan
 PRODUCT_MANUFACTURER := smartisan

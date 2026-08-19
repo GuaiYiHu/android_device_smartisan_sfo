@@ -14,4 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/mokee_sfo.mk
+    $(LOCAL_DIR)/lineage_sfo.mk
+
+COMMON_LUNCH_CHOICES := \
+    lineage_sfo-user \
+    lineage_sfo-userdebug \
+    lineage_sfo-eng

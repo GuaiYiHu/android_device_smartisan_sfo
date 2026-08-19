@@ -2,7 +2,7 @@ LOCAL_PATH := device/smartisan/sfo
 
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-mokee
+    $(LOCAL_PATH)/overlay-lineage
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -262,7 +262,7 @@ PRODUCT_PACKAGES += \
 
 # Trust HAL
 PRODUCT_PACKAGES += \
-    vendor.mokee.trust@1.0-service
+    vendor.lineage.trust@1.0-service
 
 # ANT+
 PRODUCT_PACKAGES += \

@@ -6,3 +6,4 @@
 /vendor/bin/isp_write                                        u:object_r:sfo_isp_write_exec:s0
 /vendor/bin/m10mo_fw_update                                  u:object_r:sfo_isp_write_exec:s0
 /vendor/bin/sfo_reboot_mode                                  u:object_r:sfo_reboot_mode_exec:s0
+/vendor/bin/hw/android\.hardware\.light@2\.0-service\.sfo      u:object_r:hal_light_default_exec:s0

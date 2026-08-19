@@ -28,7 +28,14 @@
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.target.rc
 
-# Smartisan aboot ignores the standard IMEM bootloader reboot reason and
+# SFO has no misc partition, so Android cannot store a recovery BCB. Set the
+# Smartisan recovery mode in alterable, then retry the request as a plain
+# reboot after Android's BCB write fails.
+on property:sys.powerctl=reboot,recovery
+    exec -- /vendor/bin/sfo_reboot_mode recovery
+    setprop sys.powerctl reboot
+
+# Smartisan aboot also ignores the standard IMEM bootloader reboot reason and
 # expects bit 2 at offset 3 of the alterable partition instead.
 on shutdown && property:sys.powerctl=reboot,bootloader
     exec -- /vendor/bin/sfo_reboot_mode bootloader

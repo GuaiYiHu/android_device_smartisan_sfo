@@ -1,0 +1,10 @@
+# Continuously save Android log buffers to /cache for early-boot debugging.
+on post-fs
+    mkdir /cache/loggy 0770 root log
+    restorecon_recursive /cache/loggy
+
+service loggy /system/bin/logcat -b all -v threadtime -f /cache/loggy/logcat.log -r 4096 -n 4
+    class core
+    user root
+    group root log readproc
+    seclabel u:r:su:s0

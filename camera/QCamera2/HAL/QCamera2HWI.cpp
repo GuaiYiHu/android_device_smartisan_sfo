@@ -502,15 +502,29 @@ int QCamera2HardwareInterface::recording_enabled(struct camera_device *device)
 void QCamera2HardwareInterface::release_recording_frame(
             struct camera_device *device, const void *opaque)
 {
+    int32_t ret = NO_ERROR;
     QCamera2HardwareInterface *hw =
         reinterpret_cast<QCamera2HardwareInterface *>(device->priv);
     if (!hw) {
         ALOGE("NULL camera device");
         return;
     }
+    if (opaque == NULL) {
+        ALOGE("%s: frame info is NULL", __func__);
+        return;
+    }
     ALOGD("%s: E", __func__);
+
+    if (hw->mVideoMem != NULL && hw->mStoreMetaDataInFrame > 0) {
+        ret = hw->mVideoMem->closeNativeHandle(opaque, true);
+        if (ret != NO_ERROR) {
+            ALOGE("%s: invalid video metadata", __func__);
+            return;
+        }
+    }
+
     hw->lockAPI();
-    int32_t ret = hw->processAPI(QCAMERA_SM_EVT_RELEASE_RECORIDNG_FRAME, (void *)opaque);
+    ret = hw->processAPI(QCAMERA_SM_EVT_RELEASE_RECORIDNG_FRAME, (void *)opaque);
     if (ret == NO_ERROR) {
         hw->waitAPIResult(QCAMERA_SM_EVT_RELEASE_RECORIDNG_FRAME);
     }
@@ -945,6 +959,7 @@ QCamera2HardwareInterface::QCamera2HardwareInterface(int cameraId)
       mPreviewWindow(NULL),
       mMsgEnabled(0),
       mStoreMetaDataInFrame(0),
+      mVideoMem(NULL),
       m_stateMachine(this),
       m_postprocessor(this),
       m_thermalAdapter(QCameraThermalAdapter::getInstance()),
@@ -1292,8 +1307,8 @@ int QCamera2HardwareInterface::initCapabilities(int cameraId,mm_camera_vtbl_t *c
         ALOGE("%s: out of memory", __func__);
         goto query_failed;
     }
-    memcpy(gCamCapability[cameraId], DATA_PTR(capabilityHeap,0),
-                                        sizeof(cam_capability_t));
+    memcpy(gCamCapability[cameraId], DATA_PTR(capabilityHeap, 0),
+            sizeof(cam_capability_t));
 
     //copy the preview sizes and video sizes lists because they
     //might be changed later
@@ -1424,7 +1439,8 @@ uint8_t QCamera2HardwareInterface::getBufNumRequired(cam_stream_type_t stream_ty
         } else {
             //preview window might not be set at this point. So, query directly
             //from BufferQueue implementation of gralloc buffers.
-            minUndequeCount = BufferQueue::MIN_UNDEQUEUED_BUFFERS;
+            /* BufferQueue no longer exposes MIN_UNDEQUEUED_BUFFERS. */
+            minUndequeCount = 2;
         }
     }
 
@@ -1565,13 +1581,14 @@ QCameraMemory *QCamera2HardwareInterface::allocateStreamBuf(cam_stream_type_t st
         {
             if (isNoDisplayMode()) {
                 mem = new QCameraStreamMemory(mGetMemory,
+                                              mCallbackCookie,
                                               bCachedMem,
                                               &m_memoryPool,
                                               stream_type);
             } else {
                 cam_dimension_t dim;
                 QCameraGrallocMemory *grallocMemory =
-                    new QCameraGrallocMemory(mGetMemory);
+                    new QCameraGrallocMemory(mGetMemory, mCallbackCookie);
 
                 mParameters.getStreamDimension(stream_type, dim);
                 if (grallocMemory)
@@ -1585,11 +1602,12 @@ QCameraMemory *QCamera2HardwareInterface::allocateStreamBuf(cam_stream_type_t st
     case CAM_STREAM_TYPE_POSTVIEW:
         {
             if (isPreviewRestartEnabled()) {
-                mem = new QCameraStreamMemory(mGetMemory, bCachedMem);
+                mem = new QCameraStreamMemory(mGetMemory, mCallbackCookie,
+                                              bCachedMem);
             } else {
                 cam_dimension_t dim;
                 QCameraGrallocMemory *grallocMemory =
-                    new QCameraGrallocMemory(mGetMemory);
+                    new QCameraGrallocMemory(mGetMemory, mCallbackCookie);
 
                 mParameters.getStreamDimension(stream_type, dim);
                 if (grallocMemory) {
@@ -1609,6 +1627,7 @@ QCameraMemory *QCamera2HardwareInterface::allocateStreamBuf(cam_stream_type_t st
     case CAM_STREAM_TYPE_METADATA:
     case CAM_STREAM_TYPE_OFFLINE_PROC:
         mem = new QCameraStreamMemory(mGetMemory,
+                                      mCallbackCookie,
                                       bCachedMem,
                                       &m_memoryPool,
                                       stream_type);
@@ -1621,7 +1640,11 @@ QCameraMemory *QCamera2HardwareInterface::allocateStreamBuf(cam_stream_type_t st
                 bCachedMem = QCAMERA_ION_USE_NOCACHE;
             }
             ALOGD("%s: vidoe buf using cached memory = %d", __func__, bCachedMem);
-            mem = new QCameraVideoMemory(mGetMemory, bCachedMem);
+            QCameraVideoMemory *videoMemory =
+                    new QCameraVideoMemory(mGetMemory, mCallbackCookie,
+                                           bCachedMem);
+            mem = videoMemory;
+            mVideoMem = videoMemory;
         }
         break;
     case CAM_STREAM_TYPE_DEFAULT:
@@ -1984,6 +2007,7 @@ int QCamera2HardwareInterface::startRecording()
 {
     int32_t rc = NO_ERROR;
     ALOGD("%s: E", __func__);
+    mVideoMem = NULL;
     if (mParameters.getRecordingHintValue() == false) {
         ALOGE("%s: start recording when hint is false, stop preview first", __func__);
         stopPreview();
@@ -2028,6 +2052,7 @@ int QCamera2HardwareInterface::stopRecording()
 {
     int rc = stopChannel(QCAMERA_CH_TYPE_VIDEO);
     ALOGD("%s: E", __func__);
+    m_cbNotifier.flushVideoNotifications();
 #ifdef HAS_MULTIMEDIA_HINTS
     if (m_pPowerModule) {
         if (m_pPowerModule->powerHint) {
@@ -2035,6 +2060,7 @@ int QCamera2HardwareInterface::stopRecording()
         }
     }
 #endif
+    mVideoMem = NULL;
     ALOGD("%s: X", __func__);
     return rc;
 }

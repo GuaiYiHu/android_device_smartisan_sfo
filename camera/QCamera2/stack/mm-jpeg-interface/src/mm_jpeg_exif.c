@@ -31,6 +31,8 @@
 #include "mm_jpeg.h"
 #include <errno.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 #define LOWER(a)               ((a) & 0xFFFF)

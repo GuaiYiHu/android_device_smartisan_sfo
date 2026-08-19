@@ -1,4 +1,4 @@
-/*Copyright (c) 2012, The Linux Foundation. All rights reserved.
+/*Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -212,7 +212,8 @@ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_GetHandle(
     /* load the library */
     p_core_comp->lib_handle = dlopen(p_core_comp->lib_name, RTLD_NOW);
     if (NULL == p_core_comp->lib_handle) {
-      ALOGE("%s:%d] Cannot load the library", __func__, __LINE__);
+      ALOGE("%s:%d] Cannot load %s: %s", __func__, __LINE__,
+        p_core_comp->lib_name, dlerror());
       rc = OMX_ErrorInvalidComponent;
       goto error;
     }
@@ -250,9 +251,9 @@ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_GetHandle(
 
   *handle = p_core_comp->handle[inst_idx] = (OMX_HANDLETYPE)p_comp;
 
-  ALOGD("%s:%d] handle = %x Instanceindex = %d,"
+  ALOGD("%s:%d] handle = %p Instanceindex = %d,"
     "comp_idx %d g_ptr %p", __func__, __LINE__,
-    (int)p_core_comp->handle[inst_idx], inst_idx,
+    p_core_comp->handle[inst_idx], inst_idx,
     comp_idx, g_omxcore);
 
   p_comp->SetCallbacks(p_comp, callBacks, appData);

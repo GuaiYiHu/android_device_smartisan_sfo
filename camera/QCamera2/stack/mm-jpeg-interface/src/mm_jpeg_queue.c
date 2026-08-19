@@ -28,6 +28,8 @@
  */
 
 #include <pthread.h>
+#include <stdlib.h>
+#include <string.h>
 #include "mm_jpeg_dbg.h"
 #include "mm_jpeg.h"
 
@@ -131,7 +133,6 @@ int32_t mm_jpeg_queue_deinit(mm_jpeg_queue_t* queue)
 int32_t mm_jpeg_queue_flush(mm_jpeg_queue_t* queue)
 {
     mm_jpeg_q_node_t* node = NULL;
-    void* data = NULL;
     struct cam_list *head = NULL;
     struct cam_list *pos = NULL;
 

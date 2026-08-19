@@ -164,6 +164,8 @@ public:
     static void * cbNotifyRoutine(void * data);
     static void releaseNotifications(void *data, void *user_data);
     static bool matchSnapshotNotifications(void *data, void *user_data);
+    static bool matchTimestampNotifications(void *data, void *user_data);
+    virtual int32_t flushVideoNotifications();
 private:
 
     camera_notify_callback         mNotifyCb;
@@ -474,6 +476,7 @@ private:
     QCameraParameters mParameters;
     int32_t               mMsgEnabled;
     int                   mStoreMetaDataInFrame;
+    QCameraVideoMemory   *mVideoMem;
 
     camera_notify_callback         mNotifyCb;
     camera_data_callback           mDataCb;

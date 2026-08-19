@@ -33,6 +33,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mm_jpeg_dbg.h"
 #include "mm_jpeg_interface.h"
@@ -302,6 +304,5 @@ uint32_t jpegdec_open(mm_jpegdec_ops_t *ops)
   pthread_mutex_unlock(&g_dec_intf_lock);
   return clnt_hdl;
 }
-
 
 

@@ -29,6 +29,8 @@
 
 #include <pthread.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -1731,6 +1733,7 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
   rc = mm_jpeg_queue_init(&my_obj->ongoing_job_q);
   if (0 != rc) {
     CDBG_ERROR("%s:%d] Error", __func__, __LINE__);
+    pthread_mutex_destroy(&my_obj->job_lock);
     return -1;
   }
 
@@ -1740,6 +1743,8 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
   rc = mm_jpeg_jobmgr_thread_launch(my_obj);
   if (0 != rc) {
     CDBG_ERROR("%s:%d] Error", __func__, __LINE__);
+    mm_jpeg_queue_deinit(&my_obj->ongoing_job_q);
+    pthread_mutex_destroy(&my_obj->job_lock);
     return -1;
   }
 
@@ -1747,6 +1752,9 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
   if (my_obj->max_pic_w <= 0 || my_obj->max_pic_h <= 0) {
     CDBG_ERROR("%s:%d] Width and height are not valid "
       "dimensions, cannot calc work buf size",__func__, __LINE__);
+    mm_jpeg_jobmgr_thread_release(my_obj);
+    mm_jpeg_queue_deinit(&my_obj->ongoing_job_q);
+    pthread_mutex_destroy(&my_obj->job_lock);
     return -1;
   }
   work_buf_size = CEILING64(my_obj->max_pic_w) *

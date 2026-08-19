@@ -645,6 +645,7 @@ void QCamera2HardwareInterface::video_stream_cb_routine(mm_camera_super_buf_t *s
                                                         void *userdata)
 {
     ALOGD("[KPI Perf] %s : BEGIN", __func__);
+    QCameraVideoMemory *videoMemObj = NULL;
     QCamera2HardwareInterface *pme = (QCamera2HardwareInterface *)userdata;
     if (pme == NULL ||
         pme->mCameraHandle == NULL ||
@@ -675,10 +676,12 @@ void QCamera2HardwareInterface::video_stream_cb_routine(mm_camera_super_buf_t *s
         timeStamp = nsecs_t(frame->ts.tv_sec) * 1000000000LL + frame->ts.tv_nsec;
     }
     ALOGE("Send Video frame to services/encoder TimeStamp : %lld", timeStamp);
-    QCameraMemory *videoMemObj = (QCameraMemory *)frame->mem_info;
+    videoMemObj = (QCameraVideoMemory *)frame->mem_info;
     camera_memory_t *video_mem = NULL;
     if (NULL != videoMemObj) {
         video_mem = videoMemObj->getMemory(frame->buf_idx, (pme->mStoreMetaDataInFrame > 0)? true : false);
+        videoMemObj->updateNativeHandle(frame->buf_idx,
+                pme->mStoreMetaDataInFrame > 0);
     }
     if (NULL != videoMemObj && NULL != video_mem) {
         pme->dumpFrameToFile(stream, frame, QCAMERA_DUMP_FRM_VIDEO);
@@ -1568,6 +1571,15 @@ bool QCameraCbNotifier::matchSnapshotNotifications(void *data,
     return false;
 }
 
+bool QCameraCbNotifier::matchTimestampNotifications(void *data,
+                                                     void */*user_data*/)
+{
+    qcamera_callback_argm_t *arg = (qcamera_callback_argm_t *)data;
+    return arg != NULL &&
+            arg->cb_type == QCAMERA_DATA_TIMESTAMP_CALLBACK &&
+            arg->msg_type == CAMERA_MSG_VIDEO_FRAME;
+}
+
 /*===========================================================================
  * FUNCTION   : cbNotifyRoutine
  *
@@ -1807,6 +1819,16 @@ void QCameraCbNotifier::setCallbacks(camera_notify_callback notifyCb,
         ALOGE("%s : Camera callback notifier already initialized!",
               __func__);
     }
+}
+
+int32_t QCameraCbNotifier::flushVideoNotifications()
+{
+    if (!mActive) {
+        ALOGE("%s: notify thread is not active", __func__);
+        return UNKNOWN_ERROR;
+    }
+    mDataQ.flushNodes(matchTimestampNotifications);
+    return NO_ERROR;
 }
 
 /*===========================================================================

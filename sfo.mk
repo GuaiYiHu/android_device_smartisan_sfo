@@ -173,6 +173,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
+    libprotobuf-cpp-lite-v27 \
     libc2dcolorconvert \
     libOmxAacEnc \
     libOmxAmrEnc \

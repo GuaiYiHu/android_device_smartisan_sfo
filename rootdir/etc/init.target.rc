@@ -100,6 +100,12 @@ on property:persist.usb.chgdisabled=0
     chown nfc nfc /data/nfc/param
 
 #start camera server as daemon
+service siodl /vendor/bin/m10mo_fw_update
+    class main
+    user root
+    group root
+    oneshot
+
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class late_start
     user camera

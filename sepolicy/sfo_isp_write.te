@@ -1,0 +1,16 @@
+type sfo_isp_write, domain;
+type sfo_isp_write_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(sfo_isp_write)
+
+# The stock updater drives the M10MO download protocol through the Fuji
+# character device and the driver's "functions" sysfs node.
+allow sfo_isp_write device:chr_file rw_file_perms;
+allow sfo_isp_write sysfs:dir r_dir_perms;
+allow sfo_isp_write sysfs:file rw_file_perms;
+
+# Firmware images, dynamic libraries and the shell used by the updater's
+# legacy system() calls.
+r_dir_file(sfo_isp_write, vendor_file_type)
+allow sfo_isp_write sfo_isp_write_exec:file execute_no_trans;
+allow sfo_isp_write shell_exec:file rx_file_perms;

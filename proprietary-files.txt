@@ -1,4 +1,7 @@
 # Camera
+bin/isp_write:vendor/bin/isp_write
+etc/firmware/RS_M10MO_F.fw:vendor/etc/firmware/RS_M10MO_F.fw
+etc/firmware/RS_M10MO_L.fw:vendor/etc/firmware/RS_M10MO_L.fw
 bin/mm-qcamera-daemon:vendor/bin/mm-qcamera-daemon
 lib/libarcsoft_asd.so:vendor/lib/libarcsoft_asd.so
 lib/libarcsoft_night_shot.so:vendor/lib/libarcsoft_night_shot.so

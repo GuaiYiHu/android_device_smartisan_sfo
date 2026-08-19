@@ -3,4 +3,6 @@
 /data/system/sensors/settings                                u:object_r:device:s0
 /dev/bcm2079x                                                u:object_r:nfc_device:s0
 /dev/block/platform/msm_sdcc\.1/by-name/alterable            u:object_r:alterable_block_device:s0
+/vendor/bin/isp_write                                        u:object_r:sfo_isp_write_exec:s0
+/vendor/bin/m10mo_fw_update                                  u:object_r:sfo_isp_write_exec:s0
 /vendor/bin/sfo_reboot_mode                                  u:object_r:sfo_reboot_mode_exec:s0

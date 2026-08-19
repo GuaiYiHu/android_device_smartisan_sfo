@@ -50,6 +50,7 @@ PRODUCT_PACKAGES += \
     camera.msm8974 \
     libkkcomp \
     libxml2 \
+    m10mo_fw_update \
     Snap \
     camera.device@1.0-impl \
     android.hardware.camera.provider@2.4-impl

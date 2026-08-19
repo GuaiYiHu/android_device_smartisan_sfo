@@ -34,26 +34,25 @@ target=`getprop ro.board.platform`
 build_type=`getprop ro.build.type`
 
 #
-# Allow USB enumeration with default PID/VID
+# Keep early boot on a stable, data-less USB composition. Android's
+# UsbDeviceManager enables MTP/PTP after the framework and storage are ready.
+# Exposing MTP here makes the host probe it before the userspace MTP server is
+# available and forces several gadget disconnect/reconnect cycles.
 #
 baseband=`getprop ro.baseband`
 debuggable=`getprop ro.debuggable`
 echo 1  > /sys/class/android_usb/f_mass_storage/lun/nofua
 usb_config=`getprop persist.sys.usb.config`
 case "$usb_config" in
-    "" | "adb" | "none") #USB persist config not set, select default configuration
-        case $target in
-            "msm8960" | "msm8974" | "msm8226" | "msm8610" | "apq8084")
-                         if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
-                             setprop persist.sys.usb.config mtp,adb
-                         else
-                             setprop persist.sys.usb.config mtp
-                         fi
-            ;;
-        esac
+    "" | "adb" | "none" | "mtp" | "mtp,adb")
+        if [ "$debuggable" = "1" ]; then
+            setprop persist.sys.usb.config adb
+        else
+            setprop persist.sys.usb.config none
+        fi
     ;;
     * )
-    ;; #USB persist config exists, do nothing
+    ;; # Preserve explicitly selected diagnostic compositions.
 esac
 
 #

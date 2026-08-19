@@ -20,6 +20,9 @@ BOARD_VENDOR := smartisan
 
 DEVICE_PATH := device/smartisan/sfo
 
+# Assertion
+TARGET_OTA_ASSERT_DEVICE := sfo,msm8974sfo,msm8974sfo_lte
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 TARGET_NO_BOOTLOADER         := true

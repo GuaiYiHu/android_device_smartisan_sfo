@@ -1091,9 +1091,7 @@ void QCamera2HardwareInterface::metadata_stream_cb_routine(mm_camera_super_buf_t
     }
 
     /*Update Sensor info*/
-    if (pMetaData->is_sensor_params_valid) {
-        pme->mExifParams.sensor_params = pMetaData->sensor_params;
-    }
+    /* The SFO backend exposes AWB data in this slot, not sensor EXIF data. */
 
     if (pMetaData->is_asd_decision_valid) {
         qcamera_sm_internal_evt_payload_t *payload =

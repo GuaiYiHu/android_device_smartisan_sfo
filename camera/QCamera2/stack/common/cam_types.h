@@ -30,7 +30,11 @@
 #ifndef __QCAMERA_TYPES_H__
 #define __QCAMERA_TYPES_H__
 
+/* Smartisan T1 uses the vendor-extended LNX.LA.3.5.1.5 KitKat ABI. */
+#define SFO_KK_CAMERA_ABI 1
+
 #include <stdint.h>
+#include <stddef.h>
 #include <pthread.h>
 #include <inttypes.h>
 #include <media/msmb_camera.h>
@@ -711,6 +715,10 @@ typedef struct {
     uint8_t num_faces_detected;                /* number of faces detected */
     cam_face_detection_info_t faces[MAX_ROI];  /* detailed information of faces detected */
     qcamera_face_detect_type_t fd_type;        /* face detect for preview or snapshot frame*/
+#ifdef SFO_KK_CAMERA_ABI
+    /* Private data appended by Smartisan's camera backend. */
+    uint8_t sfo_private_data[40];
+#endif
 } cam_face_detection_data_t;
 
 #define CAM_HISTOGRAM_STATS_SIZE 256
@@ -829,6 +837,11 @@ typedef struct {
     uint32_t flash_needed;
 } cam_ae_params_t;
 
+typedef struct {
+    int32_t cct_value;
+    int32_t decision;
+} cam_awb_params_t;
+
 
 
 typedef struct {
@@ -894,9 +907,9 @@ typedef  struct {
     uint8_t is_ae_params_valid;
     cam_ae_params_t ae_params;
 
-    /* sensor parameters */
-    uint8_t is_sensor_params_valid;
-    cam_sensor_params_t sensor_params;
+    /* Smartisan replaced the upstream sensor block with AWB metadata. */
+    uint8_t is_awb_params_valid;
+    cam_awb_params_t awb_params;
 
     /* Meta valid params */
     uint8_t is_meta_valid;
@@ -1136,6 +1149,11 @@ typedef enum {
     CAM_INTF_PARM_FOCUS_BRACKETING,
     CAM_INTF_PARM_FLASH_BRACKETING,
     CAM_INTF_PARM_GET_IMG_PROP,
+
+    /* Smartisan vendor extension: keep the daemon's fixed table at 126. */
+    CAM_INTF_PARM_SFO_RESERVED_123,
+    CAM_INTF_PARM_SFO_PREPARE_SNAPSHOT,
+    CAM_INTF_PARM_SFO_RESERVED_125,
 
     CAM_INTF_PARM_MAX
 } cam_intf_parm_type_t;

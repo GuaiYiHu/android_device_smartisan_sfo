@@ -479,8 +479,8 @@ int process_meta_data(cam_metadata_info_t *p_meta, QOMX_EXIF_INFO *exif_info,
       ALOGE("%s %d: Failed to extract 3a params", __func__, __LINE__);
     }
   }
-  cam_sensor_params_t *p_sensor_params = p_meta->is_sensor_params_valid ?
-    &p_meta->sensor_params : &p_cam_exif_params->sensor_params;
+  /* SFO's metadata slot contains AWB data; use the HAL-side sensor values. */
+  cam_sensor_params_t *p_sensor_params = &p_cam_exif_params->sensor_params;
 
   if (NULL != p_sensor_params) {
     rc = process_sensor_data(p_sensor_params, exif_info, p_cam_exif_params);

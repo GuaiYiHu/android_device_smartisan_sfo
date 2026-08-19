@@ -136,6 +136,22 @@ int QCamera2Factory::getCameraInfo(int camera_id, struct camera_info *info)
     }
 
     rc = QCamera2HardwareInterface::getCapabilities(camera_id, info);
+
+    /*
+     * SFO's sensor media entities are ordered differently from its camera
+     * video nodes.  Preserve the working node IDs and publish their logical
+     * facing/orientation explicitly: 0 is OV5648 front, 1 is M10MO rear.
+     */
+    if (rc == NO_ERROR && mNumOfCameras == 2) {
+        if (camera_id == 0) {
+            info->facing = CAMERA_FACING_FRONT;
+            info->orientation = 270;
+        } else if (camera_id == 1) {
+            info->facing = CAMERA_FACING_BACK;
+            info->orientation = 90;
+        }
+    }
+
     ALOGV("%s: X", __func__);
     return rc;
 }

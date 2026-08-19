@@ -33,6 +33,9 @@
 #include <media/msmb_isp.h>
 #include "cam_types.h"
 
+#define SFO_KK_MAX_ZOOMS_CNT   61
+#define SFO_KK_MAX_SCENE_MODES 24
+
 #define CAM_PRIV_IOCTL_BASE (V4L2_CID_PRIVATE_BASE + 14)
 typedef enum {
     /* session based parameters */
@@ -67,8 +70,11 @@ typedef struct{
     uint8_t supported_flash_modes_cnt;
     cam_flash_mode_t supported_flash_modes[CAM_FLASH_MODE_MAX];
 
+    /* Smartisan vendor extension */
+    uint32_t sfo_private_after_flash[2];
+
     uint8_t zoom_ratio_tbl_cnt;                             /* table size for zoom ratios */
-    int zoom_ratio_tbl[MAX_ZOOMS_CNT];                      /* zoom ratios table */
+    int zoom_ratio_tbl[SFO_KK_MAX_ZOOMS_CNT];               /* zoom ratios table */
 
     /* supported effect modes */
     uint8_t supported_effects_cnt;
@@ -76,7 +82,7 @@ typedef struct{
 
     /* supported scene modes */
     uint8_t supported_scene_modes_cnt;
-    cam_scene_mode_type supported_scene_modes[CAM_SCENE_MODE_MAX];
+    cam_scene_mode_type supported_scene_modes[SFO_KK_MAX_SCENE_MODES];
 
     /* supported auto exposure modes */
     uint8_t supported_aec_modes_cnt;
@@ -116,6 +122,9 @@ typedef struct{
 
     uint8_t preview_sizes_tbl_cnt;                          /* preview sizes table size */
     cam_dimension_t preview_sizes_tbl[MAX_SIZES_CNT];       /* preiew sizes table */
+
+    /* Smartisan vendor extension */
+    uint8_t sfo_private_preview_caps[0xc4];
 
     uint8_t video_sizes_tbl_cnt;                            /* video sizes table size */
     cam_dimension_t video_sizes_tbl[MAX_SIZES_CNT];         /* video sizes table */
@@ -171,7 +180,7 @@ typedef struct{
     uint32_t qcom_supported_feature_mask; /* mask of qcom specific features supported:
                                            * such as CAM_QCOM_FEATURE_SUPPORTED_FACE_DETECTION*/
     cam_padding_info_t padding_info;      /* padding information from PP */
-    int8_t min_num_pp_bufs;               /* minimum number of buffers needed by postproc module */
+    uint32_t min_num_pp_bufs;             /* minimum number of buffers needed by postproc module */
     uint32_t min_required_pp_mask;        /* min required pp feature masks for ZSL.
                                            * depends on hardware limitation, i.e. for 8974,
                                            * sharpness is required for all ZSL snapshot frames */
@@ -282,6 +291,9 @@ typedef struct{
     cam_af_bracketing_t  ubifocus_af_bracketing_need;
     /* opti Zoom info */
     cam_opti_zoom_t      opti_zoom_settings_need;
+
+    /* Smartisan vendor extension */
+    uint8_t sfo_private_tail[12];
 
 } cam_capability_t;
 

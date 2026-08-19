@@ -18,6 +18,9 @@
 <!-- Camera app resources that may need to be customized
      for different hardware or product builds. -->
 <resources>
+    <!-- The Smartisan KitKat camera daemon requires non-ZSL capture. -->
+    <string name="pref_camera_zsl_default" translatable="false">off</string>
+
     <!-- Restart preview for back camera onPictureTaken -->
     <bool name="back_camera_restart_preview_onPictureTaken">true</bool>
 

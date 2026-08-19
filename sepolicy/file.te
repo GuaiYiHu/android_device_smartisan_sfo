@@ -1,3 +1,11 @@
 #============= cmhw ==============
 type display_sysfs, sysfs_type, file_type;
 type vibeamp_sysfs, sysfs_type, file_type;
+
+type sfo_reboot_mode, domain;
+type sfo_reboot_mode_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(sfo_reboot_mode)
+
+allow sfo_reboot_mode block_device:dir search;
+allow sfo_reboot_mode alterable_block_device:blk_file rw_file_perms;

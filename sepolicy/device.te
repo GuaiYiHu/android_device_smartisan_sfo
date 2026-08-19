@@ -1,2 +1,4 @@
 #============= device ==============
 allow device labeledfs:filesystem associate;
+
+type alterable_block_device, dev_type;

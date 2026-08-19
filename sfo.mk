@@ -14,6 +14,10 @@ PRODUCT_PACKAGES += \
     ueventd.qcom.rc \
     vndservicemanager
 
+# Smartisan aboot reads reboot mode flags from the alterable partition.
+PRODUCT_PACKAGES += \
+    sfo_reboot_mode
+
 # QCOM Config Script
 PRODUCT_PACKAGES += \
     init.qcom.bt.sh \

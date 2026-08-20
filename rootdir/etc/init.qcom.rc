@@ -293,8 +293,6 @@ on enable-low-power
     write /sys/module/msm_thermal/core_control/enabled 1
 
 on charger
-    wait /dev/block/platform/msm_sdcc.1/by-name/system
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/system /system wait ro barrier=1
     start irsc_util
     start rmt_storage
     # Enable Power modes and set the CPU Freq Sampling rates
@@ -317,9 +315,7 @@ on charger
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
     start hvdcp
-    start charger_monitor
-    class_start charger
-    
+
 # msm specific files that need to be created on /data
 on post-fs-data
     # Create directory for TZ Apps
@@ -535,7 +531,7 @@ service ril-daemon3 /system/vendor/bin/hw/rild -c 3
     disabled
     group radio cache inet misc audio sdcard_r sdcard_rw diag oem_2950 log net_raw
 
-service charger /charger
+service charger /system/bin/charger
     class charger
     critical
     seclabel u:r:charger:s0

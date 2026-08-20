@@ -5,6 +5,15 @@ LOCAL_PATH:= $(call my-dir)
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include $(CLEAR_VARS)
+LOCAL_MODULE           := libwcnss_qmi
+LOCAL_MODULE_TAGS      := optional
+LOCAL_VENDOR_MODULE    := true
+LOCAL_SRC_FILES        := wcnss_qmi_persist.c
+LOCAL_CFLAGS           := -Wall -Werror
+LOCAL_SHARED_LIBRARIES := liblog
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE       := wpa_supplicant_overlay.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC

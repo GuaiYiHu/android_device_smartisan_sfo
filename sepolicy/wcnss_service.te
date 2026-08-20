@@ -1,0 +1,2 @@
+# Read the factory-programmed WLAN address used by libwcnss_qmi.
+allow wcnss_service persist_file:file r_file_perms;

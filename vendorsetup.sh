@@ -1,0 +1,2 @@
+add_lunch_combo omni_sfo-eng
+add_lunch_combo omni_sfo-userdebug

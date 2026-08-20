@@ -2,3 +2,4 @@
 allow device labeledfs:filesystem associate;
 
 type alterable_block_device, dev_type;
+type sfo_alarm_device, dev_type;

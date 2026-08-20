@@ -1,0 +1,3 @@
+# The legacy Qualcomm time daemon uses the Android alarm character device to
+# restore its persisted RTC offset before Android's framework is available.
+allow time_daemon sfo_alarm_device:chr_file rw_file_perms;

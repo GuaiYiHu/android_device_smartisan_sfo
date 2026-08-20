@@ -14,8 +14,6 @@ vendor/lib/libchromatix_ov5648_default_video.so
 vendor/lib/libchromatix_ov5648_preview.so
 vendor/lib/libchromatix_ov5648_snapshot.so
 vendor/lib/libchromatix_ov5648_zsl.so
-vendor/lib/libjpegdhw.so
-vendor/lib/libjpegehw.so
 vendor/lib/libmmcamera2_c2d_module.so
 vendor/lib/libmmcamera2_cpp_module.so
 vendor/lib/libmmcamera2_iface_modules.so
@@ -39,11 +37,15 @@ vendor/lib/libmmcamera_tintless_bg_pca_algo.so
 vendor/lib/libmmcamera_tuning.so
 vendor/lib/libmmcamera_wavelet_lib.so
 vendor/lib/libmmipl.so
-vendor/lib/libmmjpeg.so
-vendor/lib/libmmqjpeg_codec.so|7d6dfabd7e7369223be3aa14d65bed7728253176
 vendor/lib/liboemcamera.so
-vendor/lib/libqomx_jpegdec.so
-vendor/lib/libqomx_jpegenc.so
+
+# Camera JPEG
+vendor/lib/libjpegdhw.so|023a7ab7a35e9924b7dc0a54b3d18cb980a8205c
+vendor/lib/libjpegehw.so|3b6fd858c39a3b2d1d62a33b1f6863c0262100ed
+vendor/lib/libmmjpeg.so|2a5d131e31f1a236d2f85a554a788e5c6eae506c
+vendor/lib/libmmqjpeg_codec.so|1feea1fe2d05370feae960dc2068c0b015c47281|23bd134e850c13afefe8625133c403b5f4c02aa8
+vendor/lib/libqomx_jpegdec.so|64e762d8b84cfac7123c5f4291e8ddb32787b5ca
+vendor/lib/libqomx_jpegenc.so|4dd4e7522caba4cc3f251df6063d25de3b8b95ab
 
 # Nfc
 vendor/firmware/BCM20795A1_001.002.012.0003.0083_Generic_I2C_NCD_Unsigned_configdata.ncd

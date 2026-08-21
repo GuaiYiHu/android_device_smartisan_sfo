@@ -17,6 +17,9 @@ persist.data.tcpackprio.enable=true
 ro.data.large_tcp_window_size=true
 persist.cne.feature=0
 
+# eBPF support
+ro.kernel.ebpf.supported=true
+
 persist.data.qmi.adb_logmask=0
 
 vidc.debug.level=1

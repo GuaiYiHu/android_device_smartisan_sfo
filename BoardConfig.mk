@@ -66,7 +66,7 @@ BOARD_KERNEL_IMAGE_NAME            := zImage
 BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
-TARGET_KERNEL_CONFIG               := mokee_sfo-lte_defconfig
+TARGET_KERNEL_CONFIG               := sfo_defconfig
 BOARD_DTBTOOL_ARGS                 := -2
 
 # QCOM hardware

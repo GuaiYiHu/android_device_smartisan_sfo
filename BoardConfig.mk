@@ -31,6 +31,7 @@ TARGET_NO_RADIOIMAGE         := true
 # Platform
 TARGET_BOARD_PLATFORM     := msm8974
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
+TARGET_USES_ION_HEAP_ID_MASK := true
 
 # Architecture
 TARGET_ARCH         := arm

@@ -37,7 +37,7 @@
 #include <stddef.h>
 #include <pthread.h>
 #include <inttypes.h>
-#include <media/msmb_camera.h>
+#include <media/msmb_camera_smartisan.h>
 
 #define CAM_MAX_NUM_BUFS_PER_STREAM 24
 #define MAX_METADATA_PAYLOAD_SIZE 1024

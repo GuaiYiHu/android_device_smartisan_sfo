@@ -30,7 +30,7 @@
 #ifndef __QCAMERA_INTF_H__
 #define __QCAMERA_INTF_H__
 
-#include <media/msmb_isp.h>
+#include <media/msmb_isp_smartisan.h>
 #include "cam_types.h"
 
 #define SFO_KK_MAX_ZOOMS_CNT   61

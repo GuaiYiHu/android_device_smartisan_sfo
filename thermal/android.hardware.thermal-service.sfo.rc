@@ -1,0 +1,5 @@
+service vendor.thermal-sfo /vendor/bin/hw/android.hardware.thermal-service.sfo
+    class hal
+    user system
+    group system
+    interface aidl android.hardware.thermal.IThermal/default

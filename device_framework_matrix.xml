@@ -39,6 +39,14 @@
             <instance>default</instance>
         </interface>
     </hal>
+    <hal format="aidl" optional="true">
+        <name>android.hardware.thermal</name>
+        <version>1</version>
+        <interface>
+            <name>IThermal</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
     <!-- Retain the legacy interface in build metadata alongside the AIDL HAL. -->
     <hal format="hidl" optional="true">
         <name>android.hardware.vibrator</name>

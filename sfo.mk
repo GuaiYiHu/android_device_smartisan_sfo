@@ -273,6 +273,10 @@ PRODUCT_PACKAGES += \
     sensors.msm8974 \
     android.hardware.sensors@1.0-impl
 
+# Thermal reporting; the proprietary thermal-engine retains hardware mitigation.
+PRODUCT_PACKAGES += \
+    android.hardware.thermal-service.sfo
+
 # ANT+
 PRODUCT_PACKAGES += \
     AntHalService_sfo \

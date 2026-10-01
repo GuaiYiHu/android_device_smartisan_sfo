@@ -17,6 +17,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lineage_sfo.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_sfo-bp4a-user \
-    lineage_sfo-bp4a-userdebug \
-    lineage_sfo-bp4a-eng
+    lineage_sfo-cp2a-user \
+    lineage_sfo-cp2a-userdebug \
+    lineage_sfo-cp2a-eng

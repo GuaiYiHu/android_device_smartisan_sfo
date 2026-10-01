@@ -9,8 +9,8 @@ cc_binary {
     required: ["powerhint-sfo.json"],
     srcs: ["service.cpp"],
     static_libs: [
-        "//hardware/google/pixel:libperfmgr",
-        "//hardware/google/pixel:powerhal_flags-aconfig-cc",
+        "//hardware/google/pixel/power-libperfmgr:libperfmgr",
+        "//hardware/google/pixel/power-libperfmgr:powerhal_flags-aconfig-cc",
     ],
     shared_libs: [
         "libbase",

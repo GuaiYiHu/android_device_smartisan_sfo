@@ -199,6 +199,7 @@ struct sensors_poll_context_t {
     std::vector<hw_device_t*> sub_hw_devices;
     std::vector<SensorEventQueue*> queues;
     std::vector<pthread_t> threads;
+    std::map<int, int64_t> last_magnetic_timestamps;
     int nextReadIndex;
 
     sensors_poll_device_t* get_v0_device_by_handle(int global_handle);
@@ -329,7 +330,19 @@ int sensors_poll_context_t::poll(sensors_event_t *data, int maxReads) {
                 if (data[eventsRead].sensor == -1) {
                     // Bad handle, do not pass corrupted event upstream !
                     ALOGW("Dropping bad local handle event packet on the floor");
+                } else if (data[eventsRead].type == SENSOR_TYPE_MAGNETIC_FIELD &&
+                        data[eventsRead].timestamp <=
+                                last_magnetic_timestamps[data[eventsRead].sensor]) {
+                    // The legacy HAL can replay an older magnetic batch after
+                    // newer samples when multiple fusion algorithms are active.
+                    // Drop the replay; keep real sample times and FIFO intervals.
+                    ALOGV("Dropping replayed magnetic sample for handle %d",
+                            data[eventsRead].sensor);
                 } else {
+                    if (data[eventsRead].type == SENSOR_TYPE_MAGNETIC_FIELD) {
+                        last_magnetic_timestamps[data[eventsRead].sensor] =
+                                data[eventsRead].timestamp;
+                    }
                     eventsRead++;
                 }
                 queue->dequeue();

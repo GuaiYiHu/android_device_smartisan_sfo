@@ -19,6 +19,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := sensors.$(TARGET_BOARD_PLATFORM)
+LOCAL_VENDOR_MODULE := true
 
 LOCAL_MODULE_RELATIVE_PATH := hw
 
@@ -33,6 +34,8 @@ LOCAL_SHARED_LIBRARIES := \
     libdl \
     liblog \
     libutils \
+
+LOCAL_HEADER_LIBRARIES := libhardware_headers
 
 LOCAL_STRIP_MODULE := false
 

@@ -42,6 +42,12 @@ on init
 on fs
     mount_all /vendor/etc/fstab.qcom
 
+    # Persist aconfig metadata on userdata; this device has no metadata partition.
+    mkdir /metadata 0771 root system
+    mkdir /data/metadata 0771 root system
+    mount none /data/metadata /metadata bind
+    restorecon_recursive /metadata
+
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
     # results in failure to launch late-start class.
@@ -118,6 +124,11 @@ service qcamerasvr /vendor/bin/mm-qcamera-daemon
 on property:init.svc.qcamerasvr=running
     restart cameraserver
 
+# Refresh the provider after the vendor daemon has finished probing sensors.
+on property:sys.boot_completed=1
+    restart vendor.camera-provider-2-4
+    restart cameraserver
+
 service loc_launcher /vendor/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
@@ -136,8 +147,11 @@ service mpdecision /vendor/bin/mpdecision --avg_comp
 
 service time_daemon /vendor/bin/time_daemon
    class late_start
-   user root
-   group root
+   # The blob sets UID 1000 and GID 3004 itself. Start with those IDs so
+   # that it retains SYS_TIME when restoring the saved RTC offset.
+   user system
+   group net_raw
+   capabilities SYS_TIME
 
 service adsprpcd /vendor/bin/adsprpcd
    class main

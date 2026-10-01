@@ -1,39 +1,20 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- * Copyright (C) 2026 The LineageOS Project
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-#define LOG_TAG "android.hardware.light@2.0-service.sfo"
-
+// SPDX-License-Identifier: Apache-2.0
 #include "Light.h"
-
-#include <hidl/HidlTransportSupport.h>
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
 #include <log/log.h>
-
-using android::OK;
-using android::sp;
-using android::status_t;
-using android::hardware::configureRpcThreadpool;
-using android::hardware::joinRpcThreadpool;
-using android::hardware::light::V2_0::ILight;
-using android::hardware::light::V2_0::implementation::Light;
+#include <string>
 
 int main() {
-    sp<ILight> service = new Light();
-
-    configureRpcThreadpool(1, true);
-
-    const status_t status = service->registerAsService();
-    if (status != OK) {
+    using aidl::android::hardware::light::ILights;
+    using aidl::android::hardware::light::implementation::Light;
+    ABinderProcess_setThreadPoolMaxThreadCount(0);
+    auto service = ndk::SharedRefBase::make<Light>();
+    const std::string instance = std::string(ILights::descriptor) + "/default";
+    if (AServiceManager_addService(service->asBinder().get(), instance.c_str()) != STATUS_OK) {
         ALOGE("Cannot register Light HAL service");
         return 1;
     }
-
-    ALOGI("Light HAL service ready");
-    joinRpcThreadpool();
-
-    ALOGE("Light HAL service left the RPC threadpool");
+    ABinderProcess_joinThreadPool();
     return 1;
 }

@@ -13,8 +13,8 @@ import tempfile
 from pathlib import Path
 
 
-def without_recovery_editor(raw):
-    """Remove nano and its exclusive files from a newc ramdisk."""
+def without_recovery_editor(raw, extra_files=(), remove_editor=True):
+    """Remove optional editor files and explicitly unsupported FS tools."""
     parts = []
     offset = 0
     while offset < len(raw):
@@ -30,11 +30,28 @@ def without_recovery_editor(raw):
         if name == "TRAILER!!!":
             parts.append(raw[start:])
             break
-        if (name not in ("system/bin/nano", "system/lib/libncurses_recovery.so",
-                         "system/etc/nano", "system/etc/terminfo")
-                and not name.startswith(("system/etc/nano/", "system/etc/terminfo/"))):
+        editor_file = (name in ("system/bin/nano", "system/lib/libncurses_recovery.so",
+                               "system/etc/nano", "system/etc/terminfo")
+                       or name.startswith(("system/etc/nano/", "system/etc/terminfo/")))
+        if name not in extra_files and not (remove_editor and editor_file):
             parts.append(raw[start:offset])
     return b"".join(parts)
+
+
+def unsupported_recovery_fs_tools(kernel, root):
+    # Use the config embedded in this exact kernel, including for OTA repacking.
+    helper = root / "kernel/smartisan/msm8974/scripts/extract-ikconfig"
+    config = set(subprocess.check_output(["/bin/sh", str(helper), kernel], text=True,
+                                        env={"PATH": "/usr/bin:/bin"}).splitlines())
+    files = set()
+    families = {
+        "CONFIG_F2FS_FS": ("make_f2fs", "mkfs.f2fs", "sload_f2fs", "fsck.f2fs"),
+        "CONFIG_EROFS_FS": ("mkfs.erofs", "fsck.erofs", "dump.erofs"),
+    }
+    for symbol, tools in families.items():
+        if not any(symbol + "=" + value in config for value in ("y", "m")):
+            files.update("system/bin/" + tool for tool in tools)
+    return files
 
 
 def main():
@@ -42,6 +59,7 @@ def main():
     parser.add_argument("--dt", type=Path)
     parser.add_argument("--recovery-xz-armthumb", action="store_true")
     parser.add_argument("--recovery-no-editor", action="store_true")
+    parser.add_argument("--recovery-supported-fs-only", action="store_true")
     parser.add_argument("--recovery-xz-tool", type=Path,
                         default=Path("/usr/bin/xz"))
     legacy, remaining = parser.parse_known_args()
@@ -62,13 +80,15 @@ def main():
         xz = str(legacy.recovery_xz_tool)
         raw = subprocess.check_output([xz, "--decompress", "--stdout"],
                                       input=args.ramdisk.read())
-        if legacy.recovery_no_editor:
-            raw = without_recovery_editor(raw)
+        extra_files = (unsupported_recovery_fs_tools(args.kernel.name, root)
+                       if legacy.recovery_supported_fs_only else ())
+        if legacy.recovery_no_editor or extra_files:
+            raw = without_recovery_editor(raw, extra_files, legacy.recovery_no_editor)
         args.ramdisk.close()
         args.ramdisk = tempfile.TemporaryFile()
         subprocess.run([xz, "--compress", "--stdout", "--threads=1",
                         "--check=crc32", "--armthumb",
-                        "--lzma2=preset=9e,dict=32MiB"],
+                        "--lzma2=preset=9e,dict=32MiB,lc=1,lp=1,pb=2,nice=128"],
                        input=raw, stdout=args.ramdisk, check=True)
         args.ramdisk.seek(0)
 

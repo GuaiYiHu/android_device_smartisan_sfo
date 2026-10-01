@@ -1,5 +1,8 @@
 LOCAL_PATH := device/smartisan/sfo
 
+# Retain the framework matrix for this device's declared FCM level.
+PRODUCT_PACKAGES += framework_compatibility_matrix.5.xml
+
 # Android 14 netd requires the cgroup v2 hierarchy at /sys/fs/cgroup.
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json
@@ -82,7 +85,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.sfo
+    android.hardware.light-service.sfo
 
 # Power
 PRODUCT_PACKAGES += \
@@ -243,13 +246,11 @@ PRODUCT_PACKAGES += \
     hwcomposer.msm8974 \
     memtrack.msm8974 \
     liboverlay \
-    android.hardware.configstore@1.1-service \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.mapper@2.0-impl \
-    android.hardware.memtrack@1.0-impl \
-    android.hardware.memtrack@1.0-service
+    android.hardware.memtrack-service.legacy
 
 # RenderScript HAL
  PRODUCT_PACKAGES += \

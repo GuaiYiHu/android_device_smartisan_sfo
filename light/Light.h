@@ -8,19 +8,19 @@
 
 #pragma once
 
-#include <android/hardware/light/2.0/ILight.h>
-
+#include <aidl/android/hardware/light/BnLights.h>
 #include <mutex>
+#include <vector>
 
-namespace android::hardware::light::V2_0::implementation {
+namespace aidl::android::hardware::light::implementation {
+using LightState = HwLightState;
+using Type = LightType;
+using Flash = FlashMode;
 
-using ::android::hardware::Return;
-using ::android::hardware::Void;
-
-class Light : public ILight {
+class Light : public BnLights {
   public:
-    Return<Status> setLight(Type type, const LightState& state) override;
-    Return<void> getSupportedTypes(getSupportedTypes_cb hidlCb) override;
+    ndk::ScopedAStatus setLightState(int32_t id, const HwLightState& state) override;
+    ndk::ScopedAStatus getLights(std::vector<HwLight>* lights) override;
 
   private:
     void setBacklight(const LightState& state);
@@ -38,4 +38,4 @@ class Light : public ILight {
     LightState mBattery = {};
 };
 
-}  // namespace android::hardware::light::V2_0::implementation
+}  // namespace aidl::android::hardware::light::implementation

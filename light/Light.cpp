@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-namespace android::hardware::light::V2_0::implementation {
+namespace aidl::android::hardware::light::implementation {
 namespace {
 
 constexpr const char* kLcdBacklight = "/sys/class/leds/lcd-backlight/brightness";
@@ -86,7 +86,7 @@ bool isLit(const LightState& state) {
 }
 
 bool writeValue(const char* path, int value) {
-    if (android::base::WriteStringToFile(std::to_string(value) + "\n", path)) {
+    if (::android::base::WriteStringToFile(std::to_string(value) + "\n", path)) {
         return true;
     }
 
@@ -95,7 +95,7 @@ bool writeValue(const char* path, int value) {
 }
 
 bool writeString(const char* path, const std::string& value) {
-    if (android::base::WriteStringToFile(value + "\n", path)) {
+    if (::android::base::WriteStringToFile(value + "\n", path)) {
         return true;
     }
 
@@ -117,7 +117,7 @@ std::string getScaledDutyPcts(uint32_t brightness) {
 }
 
 LightState applyAlpha(const LightState& state) {
-    const uint32_t alpha = state.color >> 24;
+    const uint32_t alpha = static_cast<uint32_t>(state.color) >> 24;
     if (alpha == 0 || alpha == 255) {
         return state;
     }
@@ -133,37 +133,41 @@ LightState applyAlpha(const LightState& state) {
 
 }  // namespace
 
-Return<Status> Light::setLight(Type type, const LightState& state) {
+ndk::ScopedAStatus Light::setLightState(int32_t id, const HwLightState& state) {
+    const Type type = static_cast<Type>(id);
     switch (type) {
         case Type::BACKLIGHT:
             setBacklight(state);
-            return Status::SUCCESS;
+            return ndk::ScopedAStatus::ok();
         case Type::BUTTONS:
             setButtons(state);
-            return Status::SUCCESS;
+            return ndk::ScopedAStatus::ok();
         case Type::ATTENTION:
             setAttention(state);
-            return Status::SUCCESS;
+            return ndk::ScopedAStatus::ok();
         case Type::NOTIFICATIONS:
             setNotifications(state);
-            return Status::SUCCESS;
+            return ndk::ScopedAStatus::ok();
         case Type::BATTERY:
             setBattery(state);
-            return Status::SUCCESS;
+            return ndk::ScopedAStatus::ok();
         default:
-            return Status::LIGHT_NOT_SUPPORTED;
+            return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
     }
 }
 
-Return<void> Light::getSupportedTypes(getSupportedTypes_cb hidlCb) {
-    hidlCb(std::vector<Type>{
-            Type::BACKLIGHT,
-            Type::BUTTONS,
-            Type::BATTERY,
-            Type::NOTIFICATIONS,
-            Type::ATTENTION,
-    });
-    return Void();
+ndk::ScopedAStatus Light::getLights(std::vector<HwLight>* lights) {
+    lights->clear();
+    const std::vector<Type> types = {Type::BACKLIGHT, Type::BUTTONS, Type::BATTERY,
+                                     Type::NOTIFICATIONS, Type::ATTENTION};
+    for (const Type type : types) {
+        HwLight light;
+        light.id = static_cast<int32_t>(type);
+        light.ordinal = 0;
+        light.type = type;
+        lights->push_back(light);
+    }
+    return ndk::ScopedAStatus::ok();
 }
 
 void Light::setBacklight(const LightState& state) {
@@ -244,4 +248,4 @@ void Light::setIndicatorLocked(const LightState& state) {
     }
 }
 
-}  // namespace android::hardware::light::V2_0::implementation
+}  // namespace aidl::android::hardware::light::implementation

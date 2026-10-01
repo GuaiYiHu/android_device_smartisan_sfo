@@ -47,8 +47,8 @@ on boot
     chmod 0660 /sys/class/leds/blue/pause_hi
     chmod 0660 /sys/class/leds/blue/ramp_step_ms
 
-service vendor.light-hal-2-0 /vendor/bin/hw/android.hardware.light@2.0-service.sfo
-    interface android.hardware.light@2.0::ILight default
+service vendor.light-hal-aidl /vendor/bin/hw/android.hardware.light-service.sfo
+    interface aidl android.hardware.light.ILights/default
     class hal
     user system
     group system

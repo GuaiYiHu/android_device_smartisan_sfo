@@ -74,7 +74,7 @@ BOARD_CUSTOM_BOOTIMG               := true
 BOARD_COPY_BOOT_IMAGE_TO_TARGET_FILES := true
 BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 # Fit Recovery and the OTA size reserve within the 16,384,000-byte partition.
-BOARD_RECOVERY_MKBOOTIMG_ARGS       := $(BOARD_MKBOOTIMG_ARGS) --recovery-xz-armthumb --recovery-no-editor
+BOARD_RECOVERY_MKBOOTIMG_ARGS       := $(BOARD_MKBOOTIMG_ARGS) --recovery-xz-armthumb --recovery-no-editor --recovery-supported-fs-only
 TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
 TARGET_KERNEL_CONFIG               := sfo_defconfig
@@ -124,6 +124,8 @@ USE_OPENGL_RENDERER               := true
 TARGET_CONTINUOUS_SPLASH_ENABLED  := true
 TARGET_USES_C2D_COMPOSITION       := true
 TARGET_USE_COMPAT_GRALLOC_PERFORM := true
+# Android 17 still needs the mapper2 fallback for this legacy gralloc.
+$(call soong_config_set_bool,libui,legacy_gralloc,true)
 TARGET_USES_ION                   := true
 OVERRIDE_RS_DRIVER                := libRSDriver_adreno.so
 NUM_FRAMEBUFFER_SURFACE_BUFFERS   := 3
@@ -182,7 +184,7 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE  := 13291503000
 BOARD_CACHEIMAGE_PARTITION_SIZE     := 393216000
 BOARD_PERSISTIMAGE_PARTITION_SIZE   := 16384000
 BOARD_FLASH_BLOCK_SIZE              := 131072
-BOARD_ROOT_EXTRA_FOLDERS           := firmware persist
+BOARD_ROOT_EXTRA_FOLDERS           := firmware persist metadata
 
 # OTA
 AB_OTA_UPDATER := false

@@ -5,6 +5,11 @@
 /vendor/bin/isp_write                                        u:object_r:sfo_isp_write_exec:s0
 /vendor/bin/m10mo_fw_update                                  u:object_r:sfo_isp_write_exec:s0
 /vendor/bin/sfo_reboot_mode                                  u:object_r:sfo_reboot_mode_exec:s0
-/vendor/bin/hw/android\.hardware\.light@2\.0-service\.sfo      u:object_r:hal_light_default_exec:s0
+/vendor/bin/hw/android\.hardware\.light-service\.sfo      u:object_r:hal_light_default_exec:s0
 /vendor/bin/hw/android\.hardware\.vibrator-service\.sfo        u:object_r:hal_vibrator_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.power-service\.sfo u:object_r:hal_power_default_exec:s0
+
+# Keep aconfig labels on the userdata directory backing /metadata.
+/data/metadata(/.*)? u:object_r:metadata_file:s0
+/data/metadata/aconfig(/.*)? u:object_r:aconfig_storage_metadata_file:s0
+/data/metadata/aconfig/flags(/.*)? u:object_r:aconfig_storage_flags_metadata_file:s0
